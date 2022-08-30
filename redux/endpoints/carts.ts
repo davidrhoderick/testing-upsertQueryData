@@ -10,9 +10,7 @@ const extendedApi = api.injectEndpoints({
       transformResponse: (response) => ({
         ...(response as any),
         order: {
-          ...(response as any).order,
-          shipping_profile_id:
-            (response as any).order.shipping_profile_id ?? '',
+          shipping_profile_id: '',
         },
       }),
       async onQueryStarted({ cart_token }, { dispatch, queryFulfilled }) {

@@ -13,19 +13,42 @@ const CartTokenPage = () => {
 
   const dispatch = useDispatch();
 
-  const { access_token, expires_in, error, loading } = useSelector(
+  const { access_token, expires_in, loading } = useSelector(
     (state) => state.authentication
   );
 
   useEffect(() => {
-    if (!error && !loading && !access_token) {
+    if (!loading && !access_token) {
+      console.log(loading, access_token);
       dispatch(authenticationAuthorize())
         .then(unwrapResult)
         .catch((reqError) => {
           console.error(reqError);
         });
     }
-  }, [loading, access_token, expires_in, error, dispatch]);
+  }, [loading, access_token, expires_in, dispatch]);
+
+  const [cartsQuery, { originalArgs, data: cart, isUninitialized, isSuccess }] =
+    useLazyCartsQuery();
+
+  useEffect(() => {
+    if (access_token) {
+      if (
+        (isUninitialized && cart_token) ||
+        (isSuccess && originalArgs.cart_token !== cart_token)
+      ) {
+        cartsQuery({ cart_token }, true);
+      }
+    }
+  }, [
+    access_token,
+    isUninitialized,
+    cartsQuery,
+    cart_token,
+    isSuccess,
+    cart?.cart_token,
+    originalArgs,
+  ]);
 
   return <h1>{cart_token}</h1>;
 };

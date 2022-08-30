@@ -15,7 +15,7 @@ export const authenticationAuthorize = createAsyncThunk(
     try {
       const { data } = await axios.post('/api/authorize');
 
-      return { ...data, csrfToken };
+      return data;
     } catch (error) {
       if (error.response) {
         return rejectWithValue({
@@ -42,6 +42,7 @@ const authenticationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authenticationAuthorize.pending, (state) => {
+        console.log('loading!');
         return {
           ...state,
           loading: true,

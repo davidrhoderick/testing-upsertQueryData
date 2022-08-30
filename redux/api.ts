@@ -16,9 +16,8 @@ const axiosBaseQuery =
     unknown
   > =>
   async ({ url, method, data, params }, { getState }) => {
-    const { access_token, token_type, csrfToken, error } = (
-      getState() as RootState
-    ).authentication;
+    const { access_token, token_type, error } = (getState() as RootState)
+      .authentication;
 
     if (access_token && token_type) {
       try {
@@ -30,7 +29,6 @@ const axiosBaseQuery =
           withCredentials: true,
           headers: {
             Authorization: `${token_type} ${access_token}`,
-            'CSRF-Token': csrfToken,
           },
         });
         return { data: result.data };
