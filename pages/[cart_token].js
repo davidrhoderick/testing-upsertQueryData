@@ -6,6 +6,27 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { authenticationAuthorize } from '../redux/authenticationSlice';
 import { useLazyCartsQuery } from '../redux/endpoints/carts';
 
+const useUpdateCartToken = ({ cart_token, isSuccess }) => {
+  const {
+    query: { cart_token: routerCartToken },
+    replace,
+  } = useRouter();
+
+  useEffect(() => {
+    if (isSuccess && cart_token && cart_token !== routerCartToken) {
+      replace(
+        {
+          pathname: '/[cart_token]',
+          query: {
+            cart_token,
+          },
+        },
+        { shallow: true }
+      );
+    }
+  }, [isSuccess, routerCartToken, replace, cart_token]);
+};
+
 const CartTokenPage = () => {
   const {
     query: { cart_token },
@@ -49,6 +70,8 @@ const CartTokenPage = () => {
     cart?.cart_token,
     originalArgs,
   ]);
+
+  useUpdateCartToken({ cart_token: cart?.cart_token, isSuccess });
 
   return <h1>{cart_token}</h1>;
 };
