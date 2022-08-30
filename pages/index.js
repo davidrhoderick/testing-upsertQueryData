@@ -11,11 +11,6 @@ const HomePage = () => {
             /__c__asdfghjkl12345
           </a>
         </li>
-        <li>
-          Notice how there are some calls to /api/authorize (there should only
-          be one but I couldn't be bothered to fix it for this demo unless it's
-          actually necessary)
-        </li>
         <li>Notice the call to /api/carts/__c__asdfghjkl12345.</li>
         <li>Notice a SECOND call to /api/carts/cartToken.</li>
         <li>

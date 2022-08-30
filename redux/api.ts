@@ -1,6 +1,5 @@
 import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-import { RootState } from './store';
 
 const axiosBaseQuery =
   (
@@ -15,49 +14,24 @@ const axiosBaseQuery =
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params }, { getState }) => {
-    const { access_token, token_type, error } = (getState() as RootState)
-      .authentication;
+  async ({ url, method, data, params }) => {
+    try {
+      const result = await axios({
+        url: baseUrl + url,
+        method,
+        data,
+        params,
+      });
+      return { data: result.data };
+    } catch (axiosError) {
+      const reqError = axiosError as AxiosError;
 
-    if (access_token && token_type) {
-      try {
-        const result = await axios({
-          url: baseUrl + url,
-          method,
-          data,
-          params,
-          withCredentials: true,
-          headers: {
-            Authorization: `${token_type} ${access_token}`,
-          },
-        });
-        return { data: result.data };
-      } catch (axiosError) {
-        const reqError = axiosError as AxiosError;
-
-        return {
-          error: {
-            status: reqError.response?.status ? reqError.response.status : 500,
-            data: reqError.response?.data ? reqError.response.data : reqError,
-          },
-        };
-      }
-    } else {
-      if (!error) {
-        return {
-          error: {
-            status: 401,
-            data: 'No access token requested',
-          },
-        };
-      } else {
-        return {
-          error: {
-            status: error.status,
-            data: error.data,
-          },
-        };
-      }
+      return {
+        error: {
+          status: reqError.response?.status ? reqError.response.status : 500,
+          data: reqError.response?.data ? reqError.response.data : reqError,
+        },
+      };
     }
   };
 
