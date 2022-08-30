@@ -10,4 +10,9 @@ module.exports = {
   experimental: {
     outputStandalone: true,
   },
+  webpack: (config) => {
+    config.externals = [...config.externals, { fs: {} }];
+
+    return config;
+  },
 };
