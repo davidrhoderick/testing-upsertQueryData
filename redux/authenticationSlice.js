@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import nock from 'nock';
 
 const initialState = {
   access_token: null,
@@ -10,30 +9,11 @@ const initialState = {
   loading: false,
 };
 
-nock('http://localhost:3000')
-  .persist()
-  .post('/api/authorize')
-  .delay(1000)
-  .reply(200, {
-    access_token: 'accessToken',
-    token_type: 'Bearer',
-    expires_in: 900,
-  });
-
 export const authenticationAuthorize = createAsyncThunk(
   'authentication/authorize',
-  async ({ csrfToken, organization }, { rejectWithValue }) => {
+  async (_args, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(
-        '/api/authorize',
-        { organization },
-        {
-          headers: {
-            'CSRF-Token': csrfToken,
-          },
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.post('/api/authorize');
 
       return { ...data, csrfToken };
     } catch (error) {
