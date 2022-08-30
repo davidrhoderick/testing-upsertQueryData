@@ -19,10 +19,9 @@ const CartTokenPage = () => {
 
   useEffect(() => {
     if (!error && !loading && !access_token) {
-      dispatch(authenticationAuthorize({ organization }))
+      dispatch(authenticationAuthorize())
         .then(unwrapResult)
         .catch((reqError) => {
-          rollbar.error('Authentication failed', reqError);
           console.error(reqError);
         });
     }
