@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import nock from 'nock/types';
+import nock from 'nock';
 
 const initialState = {
   access_token: null,
@@ -17,8 +17,8 @@ nock('http://localhost:3000')
   .reply(200, {
     access_token: 'accessToken',
     token_type: 'Bearer',
-    expires_in: 900
-  })
+    expires_in: 900,
+  });
 
 export const authenticationAuthorize = createAsyncThunk(
   'authentication/authorize',

@@ -64,7 +64,7 @@ const axiosBaseQuery =
   };
 
 export const api = createApi({
-  baseQuery: axiosBaseQuery({ baseUrl: '/api/vrio/' }),
-  reducerPath: 'vrioApi',
+  baseQuery: axiosBaseQuery({ baseUrl: '/api/' }),
+  reducerPath: 'api',
   endpoints: () => ({}),
 });

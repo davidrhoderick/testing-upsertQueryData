@@ -1,9 +1,11 @@
-import nock from 'nock/types';
+import nock from 'nock';
 import { api } from '../api';
 
 nock('http://localhost:3000')
   .persist()
-  .get('__c__asdfghjkl12345')
+  .get('/api/carts/__c__asdfghjkl12345==')
+  .reply(200, { cart_token: 'newCartToken' })
+  .get('/api/carts/newCartToken')
   .reply(200, { cart_token: 'newCartToken' });
 
 const extendedApi = api.injectEndpoints({
