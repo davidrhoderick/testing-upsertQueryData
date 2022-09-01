@@ -7,14 +7,11 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  experimental: {
-    outputStandalone: true,
-  },
+  productionBrowserSourceMaps: true,
   webpack: (config) => {
     config.externals = [...config.externals, { fs: {} }];
     config.optimization.minimize = false;
 
     return config;
   },
-  productionBrowserSourceMaps: true,
 };
