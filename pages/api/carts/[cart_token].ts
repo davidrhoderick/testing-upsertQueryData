@@ -5,10 +5,7 @@ export default async function authorize(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req.query);
-  const delayer = async () => setTimeout(() => true, 500);
-
-  await delayer();
+  await new Promise((resolve) => setTimeout(resolve, 1500));
 
   res.status(200).json({
     cart_token: 'cartToken',
