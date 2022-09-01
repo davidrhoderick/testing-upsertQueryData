@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useLazyCartsQuery } from '../redux/endpoints/carts';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../redux/countSlice';
 
 const CartTokenPage = () => {
+  const dispatch = useDispatch();
+  const { count } = useSelector((state) => state.count);
+
   const {
     query: { cart_token },
     replace,
@@ -27,6 +32,16 @@ const CartTokenPage = () => {
     cart?.cart_token,
     originalArgs,
   ]);
+
+  useEffect(() => {
+    console.log(`count is ${count}`);
+    if (count === 1) {
+      console.log('state persisted');
+    } else if (count === 0) {
+      console.log('state did not persist');
+      dispatch(increment());
+    }
+  }, [count, dispatch, cart_token, cart]);
 
   // This redirects the application to a new page if the cart_token in the URL doesn't match the one in the data
   useEffect(() => {
