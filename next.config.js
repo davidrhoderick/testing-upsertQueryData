@@ -12,6 +12,7 @@ module.exports = {
   },
   webpack: (config) => {
     config.externals = [...config.externals, { fs: {} }];
+    config.optimization.minimize = false;
 
     return config;
   },
