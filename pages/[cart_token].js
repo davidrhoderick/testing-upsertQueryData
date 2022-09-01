@@ -64,7 +64,8 @@ const CartTokenPage = () => {
     <>
       <h1>URL cart_token: {cart_token}</h1>
       <h1>
-        Cart's cart_token: {cart?.cart_token ? cart.cart_token : 'Loading...'}
+        Cart&rsquo;s cart_token:{' '}
+        {cart?.cart_token ? cart.cart_token : 'Loading...'}
       </h1>
     </>
   );
