@@ -46,20 +46,28 @@ const CartTokenPage = () => {
   // This redirects the application to a new page if the cart_token in the URL doesn't match the one in the data
   useEffect(() => {
     if (isSuccess && cart_token && cart?.cart_token !== cart_token) {
-      replace(
-        {
-          pathname: '/[cart_token]',
-          query: {
-            cart_token: cart.cart_token,
-          },
-        },
-        { shallow: true }
-      );
+      // replace(
+      //   {
+      //     pathname: '/[cart_token]',
+      //     query: {
+      //       cart_token: cart.cart_token,
+      //     },
+      //   },
+      //   { shallow: true }
+      // );
+      cartsQuery({ cart_token: cart.cart_token }, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, cart_token, cart?.cart_token]);
 
-  return <h1>{cart_token}</h1>;
+  return (
+    <>
+      <h1>URL cart_token: {cart_token}</h1>
+      <h1>
+        Cart's cart_token: {cart?.cart_token ? cart.cart_token : 'Loading...'}
+      </h1>
+    </>
+  );
 };
 
 export default CartTokenPage;
